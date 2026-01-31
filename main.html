@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photobooth - Sign of Affection</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="script/main.js" defer></script>
+    
+    
+</head>
+<body class="mode-neutral">
+
+    <svg style="display: none;">
+        <defs>
+            <filter id="svg-alien">
+                <feTurbulence type="turbulence" baseFrequency="0.01" numOctaves="2" result="turbulence"/>
+                <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="40" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+            <filter id="svg-ghost">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+            </filter>
+            <filter id="svg-noise">
+                <feTurbulence type="fractalNoise" baseFrequency="0.8" result="noise"/>
+                <feComposite operator="in" in="noise" in2="SourceGraphic" result="composite"/>
+                <feBlend mode="multiply" in="composite" in2="SourceGraphic" />
+            </filter>
+        </defs>
+    </svg>
+
+    <div class="galaxy-bg">
+        <div class="stars" id="stars-container"></div>
+    </div>
+
+    <div class="download-overlay" id="download-overlay">
+        <button class="close-btn" onclick="closeDownloadOverlay()">
+            <i class="fas fa-times"></i>
+        </button>
+        <img id="download-preview" class="download-preview" alt="Preview">
+        <div class="download-controls">
+            <button class="download-btn" onclick="downloadMedia()">
+                <i class="fas fa-download"></i> Download
+            </button>
+        </div>
+    </div>
+
+    <nav class="photobooth-nav">
+        <div class="nav-left">
+            <a href="index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <div class="app-title">Sign of Affection</div>
+        </div>
+        <div class="nav-right">
+            <div class="color-display">
+                <div class="color-dot" id="current-color-dot" style="background-color: #ff6b9d;"></div>
+                <div class="gesture-indicator">
+                    <span class="gesture-icon" id="current-gesture-icon">✨</span>
+                    <span class="gesture-text" id="current-gesture-text">Make a gesture</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="media-gallery">
+        <div class="gallery-title">📸 Gallery</div>
+        <div class="gallery-items" id="gallery-items">
+            <!-- Media items will be added here -->
+        </div>
+    </div>
+
+    <div class="instruction-toggle" id="instruction-toggle">
+        <i class="fas fa-question"></i>
+    </div>
+
+    <div class="instructions" id="instructions-box">
+        <div class="instructions-title">How to Use</div>
+        <div class="instruction-item">
+            <i class="fas fa-hand-heart instruction-icon"></i>
+            <span>✊ Fist Sign 
+                <span class="color-preview-instruction" id="color-heart-preview" style="background-color: #ff6b9d;"></span>
+            </span>
+        </div>
+        <div class="instruction-item">
+            <i class="fas fa-hand-peace instruction-icon"></i>
+            <span>✋ Open Hand 
+                <span class="color-preview-instruction" id="color-open-preview" style="background-color: #6b9dff;"></span>
+            </span>
+        </div>
+        <div class="instruction-item">
+            <i class="fas fa-thumbs-up instruction-icon"></i>
+            <span>👍 Thumbs Up 
+                <span class="color-preview-instruction" id="color-thumbs-preview" style="background-color: #6bffd3;"></span>
+            </span>
+        </div>
+        <div class="instruction-item">
+            <i class="fas fa-palette instruction-icon"></i>
+            <span>Different filters apply to each gesture</span>
+        </div>
+        <div class="instruction-item">
+            <i class="fas fa-paint-brush instruction-icon"></i>
+            <span>Text colors match your customization</span>
+        </div>
+        <div class="instruction-item">
+            <i class="fas fa-camera instruction-icon"></i>
+            <span>Tap camera button to take photos</span>
+        </div>
+        <div class="instruction-item">
+            <i class="fas fa-video instruction-icon"></i>
+            <span>Tap video button to record videos</span>
+        </div>
+    </div>
+
+    <div class="filter-display">
+        <div class="filter-emoji" id="filter-emoji">✨</div>
+        <div class="filter-name" id="filter-name">Neutral Mode</div>
+    </div>
+
+    <div id="container">
+        <video id="input_video" playsinline></video>
+        <div id="overlay-layer"></div>
+        <canvas id="output_canvas"></canvas>
+        
+        <div id="ui-layer">
+            <div class="guide">
+                <span class="guide-emoji">👆</span>
+                <span id="guide-text">Make a gesture to begin the magic</span>
+            </div>
+            <div class="capture-controls">
+                <button class="capture-btn" id="photo-btn" title="Take Photo">
+                    <i class="fas fa-camera"></i>
+                </button>
+                <button class="capture-btn" id="video-btn" title="Record Video">
+                    <i class="fas fa-video"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

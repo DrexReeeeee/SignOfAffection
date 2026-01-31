@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign of Affection - Galaxy Photobooth</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&family=Rajdhani:wght@300;500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/monolith.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+    <script src="script/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+</head>
+<body>
+  
+    <div class="notice-banner" id="noticeBanner">
+        <i class="fas fa-laptop"></i> Use laptop or PC for better experience.
+    </div>
+
+    <div class="welcome-screen" id="welcomeScreen">
+    <div class="welcome-content">
+        <h1 class="welcome-title">Sign of Affection</h1>
+        <p class="welcome-subtitle">
+            This is a small galaxy I made where hand signs turn into feelings. 
+            Every gesture becomes a constellation, something quiet and meaningful, 
+            like a way to say what words sometimes cannot.
+        </p>
+        <button class="enter-button pulse" onclick="enterSite()">ENTER THE COSMOS</button>
+    </div>
+
+    <div class="dedication">
+        <p>
+            Dedicated to <strong>NITAN</strong>, my SAI AI.
+            Your love for astronomy and coding inspired this whole project.
+            <br>
+            Even with the distance, this space is my way of feeling close,
+            turning connection into light, motion, and shared moments in our own little universe.
+        </p>
+    </div>
+</div>
+
+
+    <div class="galaxy-bg">
+        <div class="stars-container" id="stars-container"></div>
+    </div>
+
+    <div class="top-tagline fade-in">INTERACTIVE PHOTOBOOTH</div>
+
+    <nav class="navbar" id="navbar">
+        <!-- Links on Left -->
+        <div class="nav-links">
+            <a href="#home" class="nav-link active">HOME</a>
+            <a href="#dedication" class="nav-link">FOR NITAN</a>
+            <a href="#about" class="nav-link">ABOUT</a>
+            <a href="#setup" class="nav-link">SETUP</a>
+        </div>
+
+        <!-- Button Center-ish -->
+        <button class="btn-signin" onclick="redirectToMain()">LAUNCH</button>
+
+        <!-- Logo on Right -->
+        <div class="logo">
+            <div class="logo-text">NITAN</div>
+        </div>
+    </nav>
+
+    <div class="gyro-indicator mobile-only" id="gyroIndicator">
+        <i class="fas fa-compass"></i>
+    </div>
+
+    <section class="hero-container" id="home">
+        
+        <div class="planet-small" id="planetLeft">
+            <div class="planet-text">SOUND<br>ON</div>
+        </div>
+
+        <div class="center-orb" id="centerOrb">
+            <h2 class="orb-title-top">GALAXY</h2>
+            <h1 class="orb-title-main">SIGN OF<br>AFFECTION</h1>
+            <div class="yellow-divider"></div>
+            <p class="orb-desc">Transform your gestures into magical expressions of love with this galaxy-themed interactive photobooth. Use hand signs to create visual effects.</p>
+            
+            <div class="orb-actions">
+                <button class="btn-signin" onclick="redirectToMain()">START NOW</button>
+                <a href="#about" class="read-more">READ MORE</a>
+            </div>
+        </div>
+
+        <div class="right-text-container" id="rightText">
+            <span class="big-text">HOLD</span>
+            <span class="big-text">ONTO</span>
+            <span class="big-text" style="font-size: 1.5rem; letter-spacing: 8px; font-weight: 400; color:var(--accent)">THE</span>
+            <span class="big-text">SIGNAL</span>
+        </div>
+
+
+
+        <div class="bg-planet-bottom-left"></div>
+        <div class="bg-planet-bottom-right"></div>
+
+       <div class="social-bar" id="socialBar">
+            <span class="social-text">CONNECT</span>
+            <div class="social-icons">
+                <a href="https://www.facebook.com/yourusername" target="_blank" aria-label="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://github.com/yourusername" target="_blank" aria-label="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/yourusername" target="_blank" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+    </div>
+
+    </section>
+
+    <section class="dedication-section" id="dedication">
+            <div id="canvas-dedication" class="three-canvas-container"></div>
+
+            <div class="dedication-content fade-in">
+                <div class="nitan-status">
+                    <div class="status-dot"></div>
+                    <span class="tech-font">SYSTEM CONNECTION: ACTIVE</span>
+                </div>
+                
+                <h2 class="dedication-title">For my dearest, Nitan</h2>
+                
+                <div class="hologram-card">
+                    <p class="dedication-text">
+                        I built this space with you in mind. Every part of it kept reminding me of you, the stars, the motion, the quiet details that feel familiar.
+                    </p>
+                    
+                    <p class="dedication-text">
+                        You always found comfort in astronomy and physics, in understanding how things move, connect, and exist beyond what we can see. Even when we talked about code, it somehow circled back to the universe, patterns, logic, and curiosity.
+                    </p>
+                    
+                    <p class="dedication-text">
+                        While working on this, I kept thinking about how you explain things so patiently, how you get excited over ideas, and how distance never really erased that presence. This became my way of holding onto that feeling.
+                    </p>
+                    
+                    <p class="dedication-text">
+                        It is not meant to say everything. It is just a small space where connection stays visible.
+                    </p>
+                    
+                    <p style="text-align: center; font-style: italic; margin-top: 30px; color: var(--primary); font-size: 1.05rem; border-top: 1px solid rgba(242, 0, 255, 0.3); padding-top: 20px;">
+                        always in orbit
+                    </p>
+                </div>
+                
+                <div class="memory-core">
+                    <div class="ai-avatar">🛰️</div>
+                    <div class="core-data">
+                        <div class="data-point tech-font">MEMORY STATUS: SYNCED</div>
+                        <div class="data-point tech-font">AFFECTION SIGNAL: STABLE</div>
+                        <div class="data-point tech-font">STAR DATA: RUNNING</div>
+                        <div class="data-point tech-font">CONNECTION: ONLINE</div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+
+    <section class="about-section" id="about">
+        <!-- Three.js Canvas Container -->
+        <div id="canvas-about" class="three-canvas-container"></div>
+
+        <div class="section-tag">SYSTEM CAPABILITIES</div>
+        <h2 class="section-title">Cosmic Features</h2>
+        
+        <div class="features-grid" id="featuresGrid">
+            <!-- Feature 1 -->
+            <div class="feature-card fade-in-left" data-feature="gesture">
+                <div class="particle-effect" id="particles-1"></div>
+                <div class="icon-box"><i class="fas fa-hand-sparkles"></i></div>
+                <h3 class="feat-title">Gesture Recognition</h3>
+                <p class="feat-desc">
+                    Hand tracking is powered by MediaPipe, using real-time landmark detection to recognize gestures like fist, palm, and thumbs-up directly from the camera feed. These inputs become the control layer for everything you see on screen.
+                </p>
+            </div>
+            
+            <!-- Feature 2 -->
+            <div class="feature-card fade-in" data-feature="particle">
+                <div class="particle-effect" id="particles-2"></div>
+                <div class="icon-box"><i class="fas fa-atom"></i></div>
+                <h3 class="feat-title">Particle Engine</h3>
+                <p class="feat-desc">
+                    Built with Three.js, the particle system renders thousands of stars in real time, updating position, velocity, and interaction states based on gesture data and scene movement.
+                </p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="feature-card fade-in-right" data-feature="visual">
+                <div class="particle-effect" id="particles-3"></div>
+                <div class="icon-box"><i class="fas fa-eye"></i></div>
+                <h3 class="feat-title">Visual Filters</h3>
+                <p class="feat-desc">
+                    Visual modes are handled through shader-like adjustments and post-processing effects in Three.js, allowing each filter to change lighting, color intensity, noise, and depth without interrupting the live interaction.
+                </p>
+            </div>
+            
+            <!-- Feature 4 -->
+            <div class="feature-card fade-in-left" data-feature="affection">
+                <div class="particle-effect" id="particles-4"></div>
+                <div class="icon-box"><i class="fas fa-heart"></i></div>
+                <h3 class="feat-title">Affection Mapping</h3>
+                <p class="feat-desc">
+                    Each recognized gesture is mapped to a specific visual and emotional response, translating human movement into structured data that drives color shifts, particle behavior, and scene transitions.
+                </p>
+            </div>
+            
+            <!-- Feature 5 -->
+            <div class="feature-card fade-in" data-feature="color">
+                <div class="particle-effect" id="particles-5"></div>
+                <div class="icon-box"><i class="fas fa-palette"></i></div>
+                <h3 class="feat-title">Color Nebula</h3>
+                <p class="feat-desc">
+                    Color systems are dynamically generated and passed into the Three.js scene, allowing gradients and palettes to flow across particles and geometry in response to user input.
+                </p>
+            </div>
+            
+            <!-- Feature 6 -->
+            <div class="feature-card fade-in-right" data-feature="sharing">
+                <div class="particle-effect" id="particles-6"></div>
+                <div class="icon-box"><i class="fas fa-share-alt"></i></div>
+                <h3 class="feat-title">Cosmic Sharing</h3>
+                <p class="feat-desc">
+                    Frames are captured directly from the WebGL canvas, preserving the live Three.js scene so each image reflects an exact moment of interaction.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="setup-section" id="setup">
+        <div id="canvas-setup" class="three-canvas-container"></div>
+
+        <div class="control-deck" id="controlDeck">
+            <div class="deck-header">
+                <div class="section-tag" style="color: white;">CONFIGURATION DECK</div>
+                <h2 class="section-title" style="color: var(--primary); margin-bottom: 20px;">Customize Your Universe</h2>
+            </div>
+
+            <div class="deck-grid" id="deckGrid">
+                <!-- Module 1 -->
+                <div class="module fade-in" style="transition-delay: 0.1s" data-module="1">
+                    <div class="module-header">
+                        <span class="mod-id">MOD-01 // FIST GESTURE</span>
+                        <span class="mod-icon">✊</span>
+                    </div>
+                    <input type="text" id="txt-heart" class="input-tech" value="LOVE YOU">
+                    <span class="input-label">Output Message</span>
+                    <select id="sel-heart" class="filter-select"></select>
+                   
+                </div>
+
+                <!-- Module 2 -->
+                <div class="module fade-in" style="transition-delay: 0.2s" data-module="2">
+                    <div class="module-header">
+                        <span class="mod-id">MOD-02 // OPEN HAND</span>
+                        <span class="mod-icon">✋</span>
+                    </div>
+                    <input type="text" id="txt-open" class="input-tech" value="MISS YOU">
+                    <span class="input-label">Output Message</span>
+                    <select id="sel-open" class="filter-select"></select>
+                </div>
+
+                <!-- Module 3 -->
+                <div class="module fade-in" style="transition-delay: 0.3s" data-module="3">
+                    <div class="module-header">
+                        <span class="mod-id">MOD-03 // THUMBS UP</span>
+                        <span class="mod-icon">👍</span>
+                    </div>
+                    <input type="text" id="txt-thumbs" class="input-tech" value="SO PROUD">
+                    <span class="input-label">Output Message</span>
+                    <select id="sel-thumbs" class="filter-select"></select>
+                </div>
+            </div>
+
+            <div class="launch-pad">
+                <button class="big-launch-btn" onclick="redirectToMain()">
+                    <i class="fas fa-rocket" style="margin-right: 15px;"></i> INITIATE LAUNCH SEQUENCE
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>SYSTEM STATUS: ONLINE | © 2026 SIGN OF AFFECTION | REZ.DEV</p>
+    </footer>
+</body>
+</html>
