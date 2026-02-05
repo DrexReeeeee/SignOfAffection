@@ -1,9 +1,17 @@
-const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        
-        // Show notice on mobile
-        if (isMobile) {
-            document.getElementById('noticeBanner').classList.add('mobile-visible');
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // Detect Mobile
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+    
+    // If mobile, show banner
+    if (isMobile) {
+        const banner = document.getElementById('noticeBanner');
+        if (banner) {
+            banner.classList.add('mobile-visible');
+            banner.style.display = 'block'; // Force inline style for safety
         }
+    }
+});
 
         let gyroEnabled = false;
         let alpha = 0, beta = 0, gamma = 0;

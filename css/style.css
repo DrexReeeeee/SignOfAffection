@@ -2608,3 +2608,65 @@
         z-index: 10000 !important;
     }
 }
+
+/* =========================================
+   FIX FOR MOBILE DROPDOWN OPTIONS
+   Add this to the very bottom of style.css
+   ========================================= */
+
+/* 1. Standard style for options (Desktop) - Dark background, White text */
+select.filter-select option {
+    background-color: #0a0b1e;
+    color: #ffffff;
+}
+
+/* 2. Mobile Specific Fix */
+@media (max-width: 992px) {
+    /* Force the dropdown options to have BLACK text on mobile.
+       This ensures they are visible against the phone's native white menu background. */
+    select.filter-select option {
+        color: #000000 !important; 
+        background-color: #ffffff !important;
+    }
+
+    /* Ensure the Select Box itself is clickable and sits above other elements */
+    .filter-select {
+        position: relative;
+        z-index: 100 !important;
+        pointer-events: auto !important;
+        opacity: 1 !important;
+        
+        /* Optional: This forces the native OS arrow styling if it was missing */
+        -webkit-appearance: menulist; 
+        appearance: menulist;
+    }
+    
+    /* Ensure input fields are also interactive */
+    .input-tech {
+        position: relative;
+        z-index: 100 !important;
+        pointer-events: auto !important;
+    }
+}
+
+@media (max-width: 768px) {
+    #noticeBanner {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        z-index: 2147483647 !important; /* Maximum possible Z-Index to sit above Welcome Screen */
+        width: 100%;
+        position: fixed;
+        top: 0;
+    }
+    
+    /* Push the Navbar down so it doesn't overlap the banner */
+    .navbar {
+        margin-top: 45px !important;
+    }
+    
+    /* Push the Welcome Screen down slightly so title isn't cut off */
+    .welcome-screen {
+        padding-top: 50px !important;
+    }
+}
