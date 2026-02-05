@@ -1,3 +1,62 @@
+const CANVAS_FILTERS = {
+    'cupid':       'contrast(1.2) saturate(1.6) brightness(1.15) sepia(0.1) hue-rotate(-5deg)',
+    'romance':     'brightness(0.9) contrast(1.3) sepia(0.8) hue-rotate(-60deg) saturate(2.0)',
+    'dreamy':      'brightness(1.1) contrast(0.9) sepia(0.2) hue-rotate(30deg)', /* Removed blur for sharpness */
+    'alien':       'hue-rotate(120deg) invert(0.1)', /* Removed url(#svg-alien) */
+    'ghost':       'grayscale(1) brightness(1.3) contrast(1.2)', /* Removed url(#svg-ghost) and heavy blur */
+    'radioactive': 'contrast(1.5) saturate(3) hue-rotate(90deg)', /* Removed url(#svg-noise) */
+    'joy':         'brightness(1.2) saturate(1.5) contrast(1.1) sepia(0.1)',
+    'sadness':     'grayscale(0.8) hue-rotate(190deg) brightness(0.9) contrast(0.9)',
+    'anger':       'contrast(1.5) saturate(2.0) sepia(0.5) hue-rotate(-50deg)',
+    'disgust':     'sepia(0.6) hue-rotate(60deg) saturate(1.2) contrast(1.1)',
+    'neutral':     'none'
+};
+
+
+function takePhoto() {
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = videoElement.videoWidth || width;
+    tempCanvas.height = videoElement.videoHeight || height;
+    const tempCtx = tempCanvas.getContext('2d');
+
+    const safeFilter = CANVAS_FILTERS[activeFilter] || 'none';
+    
+    tempCtx.filter = safeFilter;
+    tempCtx.drawImage(videoElement, 0, 0, tempCanvas.width, tempCanvas.height);
+    
+    tempCtx.filter = 'none'; 
+
+    const scaleX = tempCanvas.width / width;
+    const scaleY = tempCanvas.height / height;
+    
+    tempCtx.scale(scaleX, scaleY);
+
+    tempCtx.globalCompositeOperation = 'lighter';
+    particles.forEach(particle => {
+        if (particle.active) {
+            particle.drawToContext(tempCtx);
+        }
+    });
+    
+    const photoUrl = tempCanvas.toDataURL('image/png');
+    
+    // Add to gallery
+    const galleryItem = {
+        url: photoUrl,
+        type: 'photo',
+        timestamp: Date.now()
+    };
+    
+    galleryItems.push(galleryItem);
+    localStorage.setItem('photoboothGallery', JSON.stringify(galleryItems));
+    addGalleryItem(photoUrl, 'photo', galleryItems.length - 1);
+    
+    // Visual feedback
+    photoBtn.style.background = 'rgba(0, 255, 0, 0.5)';
+    setTimeout(() => {
+        photoBtn.style.background = '';
+    }, 300);
+}
  const FILTERS = {
         'cupid':       { hue: 330, emoji: '❤️', name: 'Cupid' },
         'romance':     { hue: 360, emoji: '🌹', name: 'Romance' },
@@ -187,50 +246,7 @@
         document.body.removeChild(link);
     }
 
-    function takePhoto() {
-        const tempCanvas = document.createElement('canvas');
-        tempCanvas.width = videoElement.videoWidth || width;
-        tempCanvas.height = videoElement.videoHeight || height;
-        const tempCtx = tempCanvas.getContext('2d');
-        
-        // Draw video frame
-        tempCtx.drawImage(videoElement, 0, 0, tempCanvas.width, tempCanvas.height);
-        
-        tempCtx.filter = getComputedStyle(videoElement).filter;
-        tempCtx.drawImage(videoElement, 0, 0, tempCanvas.width, tempCanvas.height);
-        tempCtx.filter = 'none'; // Reset for particles
-
-        const scaleX = tempCanvas.width / width;
-        const scaleY = tempCanvas.height / height;
-        
-        tempCtx.scale(scaleX, scaleY);
-        tempCtx.globalCompositeOperation = 'lighter';
-        particles.forEach(particle => {
-            if (particle.active) {
-                particle.drawToContext(tempCtx);
-            }
-        });
-        
-        // Convert to data URL
-        const photoUrl = tempCanvas.toDataURL('image/png');
-        
-        // Add to gallery
-        const galleryItem = {
-            url: photoUrl,
-            type: 'photo',
-            timestamp: Date.now()
-        };
-        
-        galleryItems.push(galleryItem);
-        localStorage.setItem('photoboothGallery', JSON.stringify(galleryItems));
-        addGalleryItem(photoUrl, 'photo', galleryItems.length - 1);
-        
-        // Visual feedback
-        photoBtn.style.background = 'rgba(0, 255, 0, 0.5)';
-        setTimeout(() => {
-            photoBtn.style.background = '';
-        }, 300);
-    }
+    
 
     async function toggleVideoRecording() {
         if (!isRecording) {
