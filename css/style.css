@@ -2508,3 +2508,103 @@
         -webkit-tap-highlight-color: rgba(0,0,0,0);
     }
 }
+
+/* =========================================
+   MOBILE VISIBILITY PATCH
+   Add this to the very bottom of style.css
+   ========================================= */
+
+@media (max-width: 992px) {
+    /* 1. Un-clip sections so content can overflow and be seen */
+    .dedication-section, 
+    .about-section, 
+    .setup-section {
+        overflow: visible !important; 
+        height: auto !important;
+        min-height: auto !important;
+        padding-top: 80px !important;
+        padding-bottom: 80px !important;
+    }
+
+    /* 2. Force Envelope Container Visibility & Centering */
+    .magic-wrapper {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-height: 400px !important;
+        opacity: 1 !important;
+        transform: none !important;
+        margin-top: 20px !important;
+        overflow: visible !important;
+    }
+
+    .elegant-envelope-container {
+        display: block !important;
+        position: relative !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: scale(0.8) !important; /* Scale down slightly for mobile */
+        margin: 0 auto !important;
+        left: auto !important;
+        top: auto !important;
+        z-index: 50 !important;
+    }
+
+    /* 3. Fix Flower Visibility & Positioning */
+    .purple-flower-container {
+        transform: scale(0.6) !important; /* Make flower smaller to fit */
+        margin-top: 50px !important; /* Reduce huge top margin */
+        margin-bottom: 50px !important;
+        height: 500px !important; /* Give it fixed height */
+        display: none; /* Keep hidden until triggered by JS */
+    }
+    
+    /* When active (triggered by JS), force flex */
+    .purple-flower-container[style*="display: flex"] {
+        display: flex !important;
+    }
+
+    /* 4. Force "Customize" (Setup) Section Visibility */
+    .control-deck {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        margin-top: 0 !important;
+    }
+
+    .deck-grid {
+        display: grid !important;
+        grid-template-columns: 1fr !important; /* Stack modules vertically */
+        gap: 20px !important;
+    }
+
+    /* Force Modules to appear without waiting for scroll animation */
+    .module {
+        opacity: 1 !important;
+        transform: none !important;
+        visibility: visible !important;
+    }
+
+    /* 5. Fix Dedication Letter Popup on Mobile */
+    #original-letter {
+        width: 95% !important;
+        max-width: 95% !important;
+        margin: 10px auto !important;
+        padding: 20px !important;
+        height: auto !important;
+        max-height: 80vh !important;
+        overflow-y: scroll !important; /* Allow scrolling inside letter */
+        position: fixed !important; /* Fix to screen center */
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+    }
+    
+    /* When letter is active, ensure it overrides everything */
+    #original-letter.active {
+        display: block !important;
+        opacity: 1 !important;
+        z-index: 10000 !important;
+    }
+}

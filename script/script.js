@@ -1112,44 +1112,34 @@ function openGalaxyAuth() {
 
 // Initialize envelope interactions on page load
 
-// Add this function to check mobile visibility
 function checkMobileVisibility() {
-    if (isMobile) {
-        console.log("Mobile detected, checking visibility:");
+    if (isMobile || window.innerWidth <= 768) {
+        console.log("Mobile Force-Fix Applied");
         
-        // Check if elements exist
+        // 1. Force Sections Visible
+        const animElements = document.querySelectorAll('.dedication-section, .about-section, .setup-section, .control-deck, .module, .feature-card, .magic-wrapper');
+        
+        animElements.forEach(el => {
+            el.style.opacity = '1';
+            el.style.visibility = 'visible';
+            el.style.transform = 'none'; // Remove scroll-based transform offsets
+            el.classList.add('visible'); // Add the class that usually triggers CSS fade-ins
+        });
+
+        // 2. Ensure Envelope is Displayed
         const envelope = document.getElementById('envelope-stage');
-        const features = document.getElementById('featuresGrid');
-        const setup = document.getElementById('controlDeck');
-        const banner = document.getElementById('noticeBanner');
-        
-        console.log("Envelope exists:", !!envelope);
-        console.log("Features exists:", !!features);
-        console.log("Setup exists:", !!setup);
-        console.log("Banner exists:", !!banner);
-        
         if (envelope) {
-            console.log("Envelope display:", envelope.style.display);
-            console.log("Envelope computed display:", window.getComputedStyle(envelope).display);
-            console.log("Envelope opacity:", window.getComputedStyle(envelope).opacity);
-        }
-        
-        // Force show banner on mobile
-        if (banner) {
-            banner.style.display = 'block';
-            banner.classList.add('mobile-visible');
+            envelope.style.display = 'block';
+            envelope.style.opacity = '1';
         }
     }
 }
 
-// Call this after DOM loads
+// Call this immediately, and again after a short delay to override any loading animations
 document.addEventListener('DOMContentLoaded', () => {
-    // ... existing code ...
-    
-    // Add mobile visibility check
-    setTimeout(() => {
-        checkMobileVisibility();
-    }, 1000);
+    checkMobileVisibility();
+    setTimeout(checkMobileVisibility, 500);
+    setTimeout(checkMobileVisibility, 2000); 
 });
 
 document.addEventListener('DOMContentLoaded', () => {
