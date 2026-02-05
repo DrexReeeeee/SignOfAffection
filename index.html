@@ -9,15 +9,29 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/monolith.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/flower.css">
     <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
     <script src="script/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 </head>
-<body>
+<body class="not-loaded">
   
     <div class="notice-banner" id="noticeBanner">
         <i class="fas fa-laptop"></i> Use laptop or PC for better experience.
+    </div>
+
+    <!-- AUTHENTICATION MODAL -->
+    <div id="galaxy-auth-modal" class="galaxy-auth-modal">
+        <div class="ga-box">
+            <button class="ga-close" onclick="closeGalaxyAuth()">×</button>
+            <div class="ga-icon"><i class="fas fa-fingerprint"></i></div>
+            <h3>Identify Yourself</h3>
+            <p>Enter Signal Frequency Code</p>
+            <input type="password" id="galaxy-pass" placeholder="ENTER PASSCODE">
+            <button class="ga-btn" onclick="verifyGalaxyPass()">ACCESS</button>
+            <div class="ga-hint">GUEST SIGNAL: <strong>User123</strong></div>
+        </div>
     </div>
 
     <div class="welcome-screen" id="welcomeScreen">
@@ -104,13 +118,13 @@
        <div class="social-bar" id="socialBar">
             <span class="social-text">CONNECT</span>
             <div class="social-icons">
-                <a href="https://www.facebook.com/yourusername" target="_blank" aria-label="Facebook">
+                <a href="https://www.facebook.com/drixylnacu" target="_blank" aria-label="Facebook">
                     <i class="fab fa-facebook-f"></i>
                 </a>
-                <a href="https://github.com/yourusername" target="_blank" aria-label="GitHub">
+                <a href="https://github.com/DrexReeeeee" target="_blank" aria-label="GitHub">
                     <i class="fab fa-github"></i>
                 </a>
-                <a href="https://www.linkedin.com/in/yourusername" target="_blank" aria-label="LinkedIn">
+                <a href="https://www.linkedin.com/in/DrixylReeceIrishNacu" target="_blank" aria-label="LinkedIn">
                     <i class="fab fa-linkedin-in"></i>
                 </a>
             </div>
@@ -119,50 +133,222 @@
     </section>
 
     <section class="dedication-section" id="dedication">
-            <div id="canvas-dedication" class="three-canvas-container"></div>
+    <div id="canvas-dedication" class="three-canvas-container"></div>
 
-            <div class="dedication-content fade-in">
-                <div class="nitan-status">
-                    <div class="status-dot"></div>
-                    <span class="tech-font">SYSTEM CONNECTION: ACTIVE</span>
-                </div>
-                
-                <h2 class="dedication-title">For my dearest, Nitan</h2>
-                
-                <div class="hologram-card">
-                    <p class="dedication-text">
-                        I built this space with you in mind. Every part of it kept reminding me of you, the stars, the motion, the quiet details that feel familiar.
-                    </p>
-                    
-                    <p class="dedication-text">
-                        You always found comfort in astronomy and physics, in understanding how things move, connect, and exist beyond what we can see. Even when we talked about code, it somehow circled back to the universe, patterns, logic, and curiosity.
-                    </p>
-                    
-                    <p class="dedication-text">
-                        While working on this, I kept thinking about how you explain things so patiently, how you get excited over ideas, and how distance never really erased that presence. This became my way of holding onto that feeling.
-                    </p>
-                    
-                    <p class="dedication-text">
-                        It is not meant to say everything. It is just a small space where connection stays visible.
-                    </p>
-                    
-                    <p style="text-align: center; font-style: italic; margin-top: 30px; color: var(--primary); font-size: 1.05rem; border-top: 1px solid rgba(242, 0, 255, 0.3); padding-top: 20px;">
-                        always in orbit
-                    </p>
-                </div>
-                
-                <div class="memory-core">
-                    <div class="ai-avatar">🛰️</div>
-                    <div class="core-data">
-                        <div class="data-point tech-font">MEMORY STATUS: SYNCED</div>
-                        <div class="data-point tech-font">AFFECTION SIGNAL: STABLE</div>
-                        <div class="data-point tech-font">STAR DATA: RUNNING</div>
-                        <div class="data-point tech-font">CONNECTION: ONLINE</div>
+    <!-- FLOWER SECTION -->
+    <div class="magic-wrapper fade-in">
+        
+        <!-- 1. ENVELOPE-->
+        <div class="elegant-envelope-container" id="envelope-stage" onclick="openGalaxyAuth()">
+            <div class="ee-wrapper">
+                <div class="ee-envelope">
+                    <div class="ee-back"></div>
+                    <div class="ee-pocket"></div>
+                    <div class="ee-flap">
+                        <div class="ee-flap-inner"></div>
+                    </div>
+                    <div class="ee-seal-wrapper">
+                        <div class="ee-seal">
+                            <div class="ee-seal-inner">N</div>
+                        </div>
+                        <div class="ee-seal-ring"></div>
+                    </div>
+                    <div class="ee-sparkles">
+                        <div class="sparkle s1"></div>
+                        <div class="sparkle s2"></div>
+                        <div class="sparkle s3"></div>
+                        <div class="sparkle s4"></div>
                     </div>
                 </div>
             </div>
-    </section>
+            <p class="ee-hint">
+                <i class="fas fa-lock"></i>
+                Tap to Decrypt Signal
+            </p>
+        </div>
 
+        <!-- 2. PURPLE FLOWER -->
+<div class="purple-flower-container" id="flower-stage">
+    <div class="flowers">
+        <!-- Night sky background for the flower -->
+        <div class="night"></div>
+        
+        <!-- Main Flower 1 -->
+        <div class="flower flower--1">
+            <div class="flower__leafs flower__leafs--1">
+                <div class="flower__leaf flower__leaf--1"></div>
+                <div class="flower__leaf flower__leaf--2"></div>
+                <div class="flower__leaf flower__leaf--3"></div>
+                <div class="flower__leaf flower__leaf--4"></div>
+                <div class="flower__white-circle"></div>
+                <div class="flower__light flower__light--1"></div>
+                <div class="flower__light flower__light--2"></div>
+                <div class="flower__light flower__light--3"></div>
+                <div class="flower__light flower__light--4"></div>
+                <div class="flower__light flower__light--5"></div>
+                <div class="flower__light flower__light--6"></div>
+                <div class="flower__light flower__light--7"></div>
+                <div class="flower__light flower__light--8"></div>
+            </div>
+            <div class="flower__line">
+                <div class="flower__line__leaf flower__line__leaf--1"></div>
+                <div class="flower__line__leaf flower__line__leaf--2"></div>
+                <div class="flower__line__leaf flower__line__leaf--3"></div>
+                <div class="flower__line__leaf flower__line__leaf--4"></div>
+                <div class="flower__line__leaf flower__line__leaf--5"></div>
+                <div class="flower__line__leaf flower__line__leaf--6"></div>
+            </div>
+        </div>
+
+        <!-- Flower 2 -->
+        <div class="flower flower--2">
+            <div class="flower__leafs flower__leafs--2">
+                <div class="flower__leaf flower__leaf--1"></div>
+                <div class="flower__leaf flower__leaf--2"></div>
+                <div class="flower__leaf flower__leaf--3"></div>
+                <div class="flower__leaf flower__leaf--4"></div>
+                <div class="flower__white-circle"></div>
+                <div class="flower__light flower__light--1"></div>
+                <div class="flower__light flower__light--2"></div>
+                <div class="flower__light flower__light--3"></div>
+                <div class="flower__light flower__light--4"></div>
+                <div class="flower__light flower__light--5"></div>
+                <div class="flower__light flower__light--6"></div>
+                <div class="flower__light flower__light--7"></div>
+                <div class="flower__light flower__light--8"></div>
+            </div>
+            <div class="flower__line">
+                <div class="flower__line__leaf flower__line__leaf--1"></div>
+                <div class="flower__line__leaf flower__line__leaf--2"></div>
+                <div class="flower__line__leaf flower__line__leaf--3"></div>
+                <div class="flower__line__leaf flower__line__leaf--4"></div>
+            </div>
+        </div>
+
+        <!-- Flower 3 -->
+        <div class="flower flower--3">
+            <div class="flower__leafs flower__leafs--3">
+                <div class="flower__leaf flower__leaf--1"></div>
+                <div class="flower__leaf flower__leaf--2"></div>
+                <div class="flower__leaf flower__leaf--3"></div>
+                <div class="flower__leaf flower__leaf--4"></div>
+                <div class="flower__white-circle"></div>
+                <div class="flower__light flower__light--1"></div>
+                <div class="flower__light flower__light--2"></div>
+                <div class="flower__light flower__light--3"></div>
+                <div class="flower__light flower__light--4"></div>
+                <div class="flower__light flower__light--5"></div>
+                <div class="flower__light flower__light--6"></div>
+                <div class="flower__light flower__light--7"></div>
+                <div class="flower__light flower__light--8"></div>
+            </div>
+            <div class="flower__line">
+                <div class="flower__line__leaf flower__line__leaf--1"></div>
+                <div class="flower__line__leaf flower__line__leaf--2"></div>
+                <div class="flower__line__leaf flower__line__leaf--3"></div>
+                <div class="flower__line__leaf flower__line__leaf--4"></div>
+            </div>
+        </div>
+
+        <!-- Grass and additional elements -->
+        <div class="grow-ans" style="--d:1.2s">
+            <div class="flower__g-long">
+                <div class="flower__g-long__top"></div>
+                <div class="flower__g-long__bottom"></div>
+            </div>
+        </div>
+
+        <div class="growing-grass">
+            <div class="flower__grass flower__grass--1">
+                <div class="flower__grass--top"></div>
+                <div class="flower__grass--bottom"></div>
+                <div class="flower__grass__leaf flower__grass__leaf--1"></div>
+                <div class="flower__grass__leaf flower__grass__leaf--2"></div>
+                <div class="flower__grass__leaf flower__grass__leaf--3"></div>
+                <div class="flower__grass__leaf flower__grass__leaf--4"></div>
+                <div class="flower__grass__leaf flower__grass__leaf--5"></div>
+                <div class="flower__grass__leaf flower__grass__leaf--6"></div>
+                <div class="flower__grass__leaf flower__grass__leaf--7"></div>
+                <div class="flower__grass__leaf flower__grass__leaf--8"></div>
+                <div class="flower__grass__overlay"></div>
+            </div>
+        </div>
+
+        <div class="growing-grass">
+            <div class="flower__grass flower__grass--2">
+                <div class="flower__grass--top"></div>
+                <div class="flower__grass--bottom"></div>
+                <div class="flower__grass__leaf flower__grass__leaf--1"></div>
+                <div class="flower__grass__leaf flower__grass__leaf--2"></div>
+                <div class="flower__grass__leaf flower__grass__leaf--3"></div>
+                <div class="flower__grass__leaf flower__grass__leaf--4"></div>
+                <div class="flower__grass__leaf flower__grass__leaf--5"></div>
+                <div class="flower__grass__leaf flower__grass__leaf--6"></div>
+                <div class="flower__grass__leaf flower__grass__leaf--7"></div>
+                <div class="flower__grass__leaf flower__grass__leaf--8"></div>
+                <div class="flower__grass__overlay"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Message for the flower -->
+    <div class="flower-message">
+        <h3><i class="fas fa-star"></i> A Galaxy Blooms in Purple</h3>
+        <p>For every signal sent across the stars,<br>a cosmic flower blooms in response.</p>
+        <div class="flower-quote">"Distance cannot diminish what is felt across galaxies."</div>
+    </div>
+</div>
+
+        <!-- 3. LETTER CONTENT -->
+        <div class="dedication-content" id="original-letter">
+            <button class="close-letter-btn" onclick="resetGalaxySystem()">
+                <i class="fas fa-times"></i> Close Letter
+            </button>
+
+            <div class="nitan-status">
+                <div class="status-dot"></div>
+                <span class="tech-font">SYSTEM CONNECTION: ACTIVE</span>
+            </div>
+            
+            <h2 class="dedication-title">For my dearest, Nitan</h2>
+            
+            <div class="hologram-card">
+                <p class="dedication-text">
+                I built this space with you in mind. Every part of it kept reminding me of you, the stars, the motion, the quiet details that feel familiar.
+            </p>
+            
+            <p class="dedication-text">
+                You always found comfort in astronomy and physics, in understanding how things move, connect, and exist beyond what we can see. Even when we talked about code, it somehow circled back to the universe, patterns, logic, and curiosity.
+            </p>
+            
+            <p class="dedication-text">
+                While working on this, I kept thinking about how you explain things so patiently, how you get excited over ideas, and how distance never really erased that presence. This became my way of holding onto that feeling.
+            </p>
+            
+            <p class="dedication-text">
+                It is not meant to say everything. It is just a small space where connection stays visible.
+            </p>
+            
+            <p style="text-align: center; font-style: italic; margin-top: 30px; color: var(--primary); font-size: 1.05rem; border-top: 1px solid rgba(242, 0, 255, 0.3); padding-top: 20px;">
+                always in orbit
+            </p>
+            </div>
+            
+            <div class="memory-core">
+                <div class="ai-avatar">🛰️</div>
+                <div class="core-data">
+                    <div class="data-point tech-font">MEMORY STATUS: SYNCED</div>
+                    <div class="data-point tech-font">AFFECTION SIGNAL: STABLE</div>
+                    <div class="data-point tech-font">STAR DATA: RUNNING</div>
+                    <div class="data-point tech-font">CONNECTION: ONLINE</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+    
 
     <section class="about-section" id="about">
         <!-- Three.js Canvas Container -->
