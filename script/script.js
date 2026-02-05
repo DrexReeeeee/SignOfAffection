@@ -1,4 +1,4 @@
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         
         // Show notice on mobile
         if (isMobile) {
@@ -504,3 +504,626 @@
                 });
             }
         });
+
+/* ===== GALAXY AUTHENTICATION SYSTEM ===== */
+
+function openGalaxyAuth() {
+    const envelope = document.getElementById('envelope-stage');
+    if (envelope.style.display === 'none') return;
+    
+    const modal = document.getElementById('galaxy-auth-modal');
+    modal.style.display = 'flex';
+    
+    // Create stars when modal opens
+    setTimeout(() => {
+        createModalParticles();
+    }, 100);
+    
+    setTimeout(() => { 
+        modal.classList.add('active'); 
+        document.getElementById('galaxy-pass').focus();
+    }, 10);
+}
+
+function closeGalaxyAuth() {
+    const modal = document.getElementById('galaxy-auth-modal');
+    modal.classList.remove('active');
+    setTimeout(() => { modal.style.display = 'none'; }, 500);
+}
+
+function verifyGalaxyPass() {
+    const input = document.getElementById('galaxy-pass').value.trim();
+    const modal = document.getElementById('galaxy-auth-modal');
+    const envelopeStage = document.getElementById('envelope-stage');
+    const flowerStage = document.getElementById('flower-stage');
+    const originalLetter = document.getElementById('original-letter');
+    const magicWrapper = document.querySelector('.magic-wrapper');
+    
+    // Clear previous input
+    document.getElementById('galaxy-pass').value = '';
+
+    if (input === 'Nitan123') {
+        // CASE 1: Show Original Letter (Nitan's path)
+        closeGalaxyAuth();
+        playUnlockSound();
+        
+        // 1. Animate envelope opening
+        envelopeStage.classList.add('open');
+        
+        // 2. Create magical sparkles
+        createEnvelopeSparkles(envelopeStage);
+        
+        // 3. After envelope opens, move it to the left and show letter
+        setTimeout(() => {
+            // Add moved-left class to envelope
+            envelopeStage.classList.add('moved-left');
+            
+            // Change wrapper layout
+            magicWrapper.classList.add('with-letter');
+            
+            // Show letter
+            originalLetter.style.display = 'block';
+            
+            // Small delay for layout changes
+            setTimeout(() => {
+                originalLetter.classList.add('active');
+                
+                // Scroll to the content smoothly
+                originalLetter.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center',
+                    inline: 'nearest'
+                });
+                
+                // Add click-to-close for envelope when in moved state
+                envelopeStage.style.pointerEvents = 'auto';
+                envelopeStage.onclick = function() {
+                    resetToEnvelopeOnly();
+                };
+                
+            }, 300);
+            
+        }, 800);
+
+    } else if (input === 'User123') {
+        // CASE 2: Show Elegant Flower (User's path)
+        closeGalaxyAuth();
+        playBloomSound();
+        
+        // 1. Envelope magic transformation
+        envelopeStage.style.transition = "all 1s cubic-bezier(0.34, 1.56, 0.64, 1)";
+        envelopeStage.style.transform = "scale(0.5) rotate(180deg)";
+        envelopeStage.style.opacity = "0.5";
+        
+        // Create transformation particles
+        createTransformationParticles(envelopeStage);
+
+         // 2. Show Flower Stage with sequential animations
+            setTimeout(() => {
+                envelopeStage.style.display = 'none';
+                flowerStage.style.display = 'flex';
+                flowerStage.style.opacity = '0';
+                
+                setTimeout(() => {
+                    flowerStage.style.opacity = '1';
+                    
+                    // IMPORTANT: Initialize flower animations
+                    initFlowerAnimations();
+                    
+                    flowerStage.onclick = function(e) {
+                        createFlowerSparkles(e.clientX, e.clientY);
+                    };
+                    
+                    // Scroll to flower
+                    setTimeout(() => {
+                        flowerStage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 500);
+                    
+                }, 300);
+                
+            }, 800);
+    } else {
+        // ERROR: Shake animation
+        const inp = document.getElementById('galaxy-pass');
+        inp.style.borderColor = '#ff0055';
+        inp.style.boxShadow = '0 0 20px rgba(255, 0, 85, 0.5)';
+        
+        // Shake animation
+        inp.animate([
+            { transform: 'translateX(0)' },
+            { transform: 'translateX(-10px)' },
+            { transform: 'translateX(10px)' },
+            { transform: 'translateX(-10px)' },
+            { transform: 'translateX(10px)' },
+            { transform: 'translateX(0)' }
+        ], { duration: 500, easing: 'ease-in-out' });
+        
+        // Create error particles
+        createErrorParticles(inp);
+        
+        setTimeout(() => {
+            inp.style.borderColor = '#c77dff';
+            inp.style.boxShadow = '';
+        }, 1000);
+    }
+}
+
+/* ===== FLOWER ANIMATION INITIALIZATION ===== */
+function initFlowerAnimations() {
+    // Add the loaded class to body to trigger animations
+    document.body.classList.remove("not-loaded");
+    
+    // Force a reflow to restart animations
+    const flowerStage = document.getElementById('flower-stage');
+    if (flowerStage) {
+        flowerStage.style.animation = 'none';
+        setTimeout(() => {
+            flowerStage.style.animation = '';
+        }, 10);
+    }
+    
+    // Check if flower elements exist and add animation triggers
+    const flowerElements = document.querySelectorAll('.flower__leafs, .flower__light, .flower__line, .grow-ans, .growing-grass');
+    flowerElements.forEach(el => {
+        el.style.animationPlayState = 'running';
+    });
+    
+    console.log('Flower animations initialized');
+}
+
+function resetGalaxySystem() {
+    // Reset to initial state (Envelope visible)
+    const envelopeStage = document.getElementById('envelope-stage');
+    const flowerStage = document.getElementById('flower-stage');
+    const originalLetter = document.getElementById('original-letter');
+    const magicWrapper = document.querySelector('.magic-wrapper');
+    
+    // Reset flower animations
+    if (flowerStage.style.display !== 'none') {
+        flowerStage.style.opacity = '0';
+        setTimeout(() => {
+            flowerStage.style.display = 'none';
+            resetFlowerAnimations();
+            resetToEnvelopeOnly();
+        }, 500);
+    } else {
+        // For Nitan123 path
+        resetToEnvelopeOnly();
+    }
+}
+
+function resetToEnvelopeOnly() {
+    const envelopeStage = document.getElementById('envelope-stage');
+    const originalLetter = document.getElementById('original-letter');
+    const magicWrapper = document.querySelector('.magic-wrapper');
+    
+    // Hide letter with animation
+    originalLetter.classList.remove('active');
+    
+    setTimeout(() => {
+        originalLetter.style.display = 'none';
+        
+        // Reset envelope position and remove moved-left class
+        envelopeStage.classList.remove('moved-left', 'open');
+        envelopeStage.style.transform = '';
+        envelopeStage.style.opacity = '';
+        envelopeStage.style.position = '';
+        envelopeStage.style.left = '';
+        envelopeStage.style.top = '';
+        
+        // Reset wrapper layout
+        magicWrapper.classList.remove('with-letter');
+        
+        // Reset envelope click handler
+        envelopeStage.onclick = function() {
+            openGalaxyAuth();
+        };
+        
+        // Re-enable hint
+        const hint = envelopeStage.querySelector('.ee-hint');
+        if (hint) {
+            hint.style.display = 'flex';
+        }
+        
+        // Create reappearing sparkles
+        createReappearSparkles(envelopeStage);
+        
+        // Scroll to envelope
+        setTimeout(() => {
+            envelopeStage.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center'
+            });
+        }, 300);
+        
+    }, 500);
+}
+
+/* ===== PARTICLE EFFECTS ===== */
+
+function createEnvelopeSparkles(element) {
+    const rect = element.getBoundingClientRect();
+    const cx = rect.left + rect.width/2;
+    const cy = rect.top + rect.height/2;
+    
+    for(let i = 0; i < 20; i++) {
+        createSparkle(
+            cx + (Math.random() - 0.5) * 100,
+            cy + (Math.random() - 0.5) * 100,
+            '#c77dff',
+            800
+        );
+    }
+}
+
+function createFlowerSparkles(x, y) {
+    for(let i = 0; i < 15; i++) {
+        const color = i % 3 === 0 ? '#c77dff' : i % 3 === 1 ? '#ffd700' : '#00f3ff';
+        createSparkle(
+            x + (Math.random() - 0.5) * 100,
+            y + (Math.random() - 0.5) * 100,
+            color,
+            1000
+        );
+    }
+}
+
+function createTransformationParticles(element) {
+    const rect = element.getBoundingClientRect();
+    const cx = rect.left + rect.width/2;
+    const cy = rect.top + rect.height/2;
+    
+    for(let i = 0; i < 30; i++) {
+        const color = Math.random() > 0.5 ? '#8e24aa' : '#ffd700';
+        createParticle(
+            cx, cy,
+            color,
+            Math.random() * 200 - 100,
+            Math.random() * 200 - 100,
+            1500
+        );
+    }
+}
+
+function createErrorParticles(element) {
+    const rect = element.getBoundingClientRect();
+    const cx = rect.left + rect.width/2;
+    const cy = rect.top + rect.height/2;
+    
+    for(let i = 0; i < 10; i++) {
+        createParticle(
+            cx, cy,
+            '#ff0055',
+            Math.random() * 100 - 50,
+            Math.random() * 50 - 25,
+            800
+        );
+    }
+}
+
+function createReappearSparkles(element) {
+    const rect = element.getBoundingClientRect();
+    const cx = rect.left + rect.width/2;
+    const cy = rect.top + rect.height/2;
+    
+    for(let i = 0; i < 15; i++) {
+        setTimeout(() => {
+            createSparkle(
+                cx + (Math.random() - 0.5) * 150,
+                cy + (Math.random() - 0.5) * 150,
+                '#00f3ff',
+                600
+            );
+        }, i * 50);
+    }
+}
+
+function createSparkle(x, y, color, duration) {
+    const sparkle = document.createElement('div');
+    sparkle.style.position = 'fixed';
+    sparkle.style.width = '6px';
+    sparkle.style.height = '6px';
+    sparkle.style.background = color;
+    sparkle.style.borderRadius = '50%';
+    sparkle.style.boxShadow = `0 0 15px ${color}`;
+    sparkle.style.pointerEvents = 'none';
+    sparkle.style.zIndex = '99999';
+    sparkle.style.left = x + 'px';
+    sparkle.style.top = y + 'px';
+    
+    // Animation
+    sparkle.animate([
+        { 
+            transform: 'scale(0) rotate(0deg)',
+            opacity: 0 
+        },
+        { 
+            transform: 'scale(1.5) rotate(180deg)',
+            opacity: 1 
+        },
+        { 
+            transform: 'scale(0) rotate(360deg)',
+            opacity: 0 
+        }
+    ], { 
+        duration: duration,
+        easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
+    });
+    
+    document.body.appendChild(sparkle);
+    setTimeout(() => sparkle.remove(), duration);
+}
+
+function createParticle(x, y, color, vx, vy, duration) {
+    const particle = document.createElement('div');
+    particle.style.position = 'fixed';
+    particle.style.width = '4px';
+    particle.style.height = '4px';
+    particle.style.background = color;
+    particle.style.borderRadius = '50%';
+    particle.style.boxShadow = `0 0 10px ${color}`;
+    particle.style.pointerEvents = 'none';
+    particle.style.zIndex = '99999';
+    particle.style.left = x + 'px';
+    particle.style.top = y + 'px';
+    
+    // Animation
+    particle.animate([
+        { 
+            transform: 'translate(0, 0) scale(1)',
+            opacity: 1 
+        },
+        { 
+            transform: `translate(${vx}px, ${vy}px) scale(0)`,
+            opacity: 0 
+        }
+    ], { 
+        duration: duration,
+        easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
+    });
+    
+    document.body.appendChild(particle);
+    setTimeout(() => particle.remove(), duration);
+}
+
+// FLOWER ANIMATION RESET
+function resetFlowerAnimations() {
+    // Hide flower container
+    const flowerStage = document.getElementById('flower-stage');
+    if (flowerStage) {
+        flowerStage.style.opacity = '0';
+        
+        // Pause all animations
+        const flowerElements = document.querySelectorAll('.flower__leafs, .flower__light, .flower__line, .grow-ans, .growing-grass');
+        flowerElements.forEach(el => {
+            el.style.animationPlayState = 'paused';
+        });
+        
+        setTimeout(() => {
+            flowerStage.style.display = 'none';
+        }, 500);
+    }
+}
+/* ===== SOUND EFFECTS ===== */
+
+function playUnlockSound() {
+    // Create a pleasant unlock sound using Web Audio API
+    try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
+        oscillator.frequency.exponentialRampToValueAtTime(1046.50, audioContext.currentTime + 0.3); // C6
+        
+        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+        
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.5);
+    } catch (e) {
+        console.log('Audio context not supported');
+    }
+}
+
+function playBloomSound() {
+    // Create a blooming sound
+    try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // Create multiple oscillators for a richer sound
+        for(let i = 0; i < 3; i++) {
+            setTimeout(() => {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                // Different frequencies for each oscillator
+                const baseFreq = 261.63 * (i + 1); // C4, C5, C6
+                oscillator.frequency.setValueAtTime(baseFreq, audioContext.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(baseFreq * 2, audioContext.currentTime + 0.5);
+                
+                gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1);
+                
+                oscillator.type = i === 0 ? 'sine' : i === 1 ? 'triangle' : 'sawtooth';
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 1);
+            }, i * 100);
+        }
+    } catch (e) {
+        console.log('Audio context not supported');
+    }
+}
+
+/* ===== MODAL PARTICLE EFFECTS ===== */
+
+function createModalParticles() {
+    const modal = document.getElementById('galaxy-auth-modal');
+    if (!modal) return;
+    
+    // Clear existing particles
+    const existingParticles = modal.querySelectorAll('.modal-particle');
+    existingParticles.forEach(p => p.remove());
+    
+    // Create new galaxy-themed particles
+    for (let i = 0; i < 25; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('modal-particle');
+        
+        // Random position
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        
+        // Random size (smaller for stars)
+        const size = 0.5 + Math.random() * 2;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        
+        // Galaxy colors: whites, purples, and blues
+        const colors = [
+            'rgba(255, 255, 255, 0.9)',      // White stars
+            'rgba(199, 125, 255, 0.8)',      // Purple stars
+            'rgba(0, 243, 255, 0.7)',        // Blue stars
+            'rgba(255, 215, 0, 0.6)'         // Gold stars (rare)
+        ];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.background = color;
+        
+        // Random twinkle animation
+        const duration = 3 + Math.random() * 4;
+        const delay = Math.random() * 5;
+        
+        // Create individual animation
+        particle.style.animation = `
+            modalStarTwinkle ${duration}s ease-in-out ${delay}s infinite
+        `;
+        
+        modal.appendChild(particle);
+    }
+}
+
+/* ===== EVENT LISTENERS ===== */
+
+// Allow Enter key in password field
+document.getElementById('galaxy-pass').addEventListener('keypress', (e) => {
+    if(e.key === 'Enter') {
+        e.preventDefault();
+        verifyGalaxyPass();
+    }
+});
+
+// Focus input when modal opens
+document.getElementById('galaxy-auth-modal').addEventListener('click', (e) => {
+    if(e.target === document.getElementById('galaxy-auth-modal')) {
+        closeGalaxyAuth();
+    }
+});
+
+// Close letter with Escape key
+document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape') {
+        const letter = document.getElementById('original-letter');
+        if(letter.style.display === 'block') {
+            resetGalaxySystem();
+        }
+    }
+});
+
+// Add modal star animation styles
+const modalStarStyle = document.createElement('style');
+modalStarStyle.textContent = `
+    @keyframes modalStarTwinkle {
+        0%, 100% {
+            opacity: 0.1;
+            transform: scale(0.8);
+        }
+        25% {
+            opacity: 0.3;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.3);
+            box-shadow: 0 0 15px currentColor;
+        }
+        75% {
+            opacity: 0.3;
+            transform: scale(1);
+        }
+    }
+`;
+document.head.appendChild(modalStarStyle);
+
+// Initialize envelope interactions on page load
+document.addEventListener('DOMContentLoaded', () => {
+    // Add hover effect for envelope
+    const envelope = document.getElementById('envelope-stage');
+    if(envelope) {
+        envelope.addEventListener('mouseenter', () => {
+            if(!envelope.classList.contains('open')) {
+                createEnvelopeSparkles(envelope);
+            }
+        });
+        
+        envelope.addEventListener('touchstart', () => {
+            if(!envelope.classList.contains('open')) {
+                createEnvelopeSparkles(envelope);
+            }
+        });
+    }
+    
+    // Ensure close button has proper event listener
+    const closeBtn = document.querySelector('.close-letter-btn');
+    if (closeBtn) {
+        closeBtn.onclick = function(e) {
+            e.stopPropagation(); // Prevent event bubbling
+            resetGalaxySystem();
+        };
+    }
+});
+
+// Update openGalaxyAuth to include stars
+function openGalaxyAuth() {
+    const envelope = document.getElementById('envelope-stage');
+    if (envelope.style.display === 'none') return;
+    
+    const modal = document.getElementById('galaxy-auth-modal');
+    modal.style.display = 'flex';
+    
+    // Create stars when modal opens
+    setTimeout(() => {
+        createModalParticles();
+    }, 100);
+    
+    setTimeout(() => { 
+        modal.classList.add('active'); 
+        document.getElementById('galaxy-pass').focus();
+    }, 10);
+}
+
+// Initialize envelope interactions on page load
+document.addEventListener('DOMContentLoaded', () => {
+    // Add hover effect for envelope
+    const envelope = document.getElementById('envelope-stage');
+    if(envelope) {
+        envelope.addEventListener('mouseenter', () => {
+            if(!envelope.classList.contains('open')) {
+                createEnvelopeSparkles(envelope);
+            }
+        });
+        
+        envelope.addEventListener('touchstart', () => {
+            if(!envelope.classList.contains('open')) {
+                createEnvelopeSparkles(envelope);
+            }
+        });
+    }
+});
+
