@@ -24,6 +24,7 @@
         }
 
         /* --- NOTICE BANNER --- */
+        /* --- NOTICE BANNER FIX --- */
         .notice-banner {
             position: fixed;
             top: 0;
@@ -34,11 +35,11 @@
             text-align: center;
             padding: 10px;
             font-size: 0.9rem;
-            z-index: 99999;
+            z-index: 999999; /* Increased z-index */
             font-family: 'Rajdhani', sans-serif;
             font-weight: 600;
             letter-spacing: 1px;
-            display: none; /* Hidden by default, shown on mobile */
+            display: none;
         }
         .notice-banner.mobile-visible {
             display: block;
@@ -191,6 +192,19 @@
         .ai-avatar { width: 120px; height: 120px; border-radius: 50%; background: #000; border: 2px solid var(--primary); display: flex; justify-content: center; align-items: center; font-size: 2.5rem; box-shadow: 0 0 50px rgba(199, 125, 255, 0.5); animation: float 4s ease-in-out infinite; z-index: 2; }
         .core-data { background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 10px; border-left: 3px solid var(--primary); backdrop-filter: blur(5px); }
         .data-point { margin: 10px 0; font-family: 'Rajdhani', sans-serif; color: var(--primary); }
+
+        @media (max-width: 768px) {
+    .dedication-section {
+        padding: 80px 1.5rem !important;
+        min-height: auto !important;
+        display: block !important; /* Change from flex to block */
+    }
+    
+    .magic-wrapper.fade-in {
+        margin-top: 30px !important;
+        min-height: 400px !important;
+    }
+}
 
         /* --- ABOUT SECTION ENHANCED --- */
         .about-section { 
@@ -463,6 +477,156 @@
                 gap: 20px;
             }
         }
+
+        /* FIX FOR MOBILE - MAGIC WRAPPER */
+        /* ===== COMPREHENSIVE MOBILE FIXES ===== */
+
+/* Ensure all sections are visible on mobile */
+@media (max-width: 768px) {
+    /* Show notification banner */
+    .notice-banner.mobile-visible {
+        display: block !important;
+        position: fixed !important;
+        top: 0 !important;
+        z-index: 999999 !important;
+    }
+    
+    /* Fix navbar spacing */
+    .navbar {
+        padding: 1rem 1rem !important;
+        margin-top: 40px !important; /* Make space for banner */
+    }
+    
+    /* Ensure all sections have proper padding and are visible */
+    .dedication-section,
+    .about-section,
+    .setup-section {
+        padding-top: 100px !important;
+        padding-bottom: 100px !important;
+        min-height: auto !important;
+        position: relative !important;
+        overflow: visible !important;
+        z-index: 5 !important;
+    }
+    
+    /* Make sure elements are not hidden by overflow */
+    .features-grid,
+    .deck-grid,
+    .magic-wrapper {
+        position: relative !important;
+        z-index: 10 !important;
+    }
+    
+    /* Fix feature cards visibility */
+    .feature-card {
+        opacity: 1 !important;
+        transform: none !important;
+        visibility: visible !important;
+    }
+    
+    /* Fix control deck visibility */
+    .control-deck {
+        opacity: 1 !important;
+        transform: none !important;
+        visibility: visible !important;
+    }
+    
+    /* Ensure envelope is clickable */
+    .elegant-envelope-container {
+        pointer-events: all !important;
+        cursor: pointer !important;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+    /* Adjust padding for very small screens */
+    .dedication-section,
+    .about-section,
+    .setup-section {
+        padding: 80px 1rem !important;
+    }
+    
+    /* Make sure content fits */
+    .feature-card,
+    .module {
+        margin: 10px 0 !important;
+        width: 100% !important;
+    }
+    
+    /* Adjust envelope size */
+    .elegant-envelope-container {
+        transform: scale(0.8) !important;
+        margin: 30px auto !important;
+    }
+}
+@media (max-width: 768px) {
+    .magic-wrapper {
+        min-height: 300px !important;
+        margin: 20px 0 !important;
+        padding: 20px 10px !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+    }
+    
+    .elegant-envelope-container {
+        width: 280px !important;
+        height: 190px !important;
+        margin: 20px auto !important;
+        transform: scale(0.9) !important;
+    }
+    
+    .ee-hint {
+        position: relative !important;
+        bottom: -70px !important;
+        font-size: 0.9rem !important;
+        padding: 8px 15px !important;
+        width: 90% !important;
+    }
+    
+    /* Fix for flower on mobile */
+    .purple-flower-container {
+        width: 300px !important;
+        height: 400px !important;
+        margin-top: 50px !important;
+        transform: scale(0.7) !important;
+        overflow: visible !important;
+    }
+    
+    .flower-message {
+        padding: 15px !important;
+        margin-top: 20px !important;
+        max-width: 280px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .magic-wrapper {
+        min-height: 250px !important;
+        margin: 15px 0 !important;
+        padding: 15px 5px !important;
+    }
+    
+    .elegant-envelope-container {
+        width: 250px !important;
+        height: 170px !important;
+        transform: scale(0.8) !important;
+    }
+    
+    .purple-flower-container {
+        width: 250px !important;
+        height: 350px !important;
+        margin-top: 30px !important;
+        transform: scale(0.6) !important;
+    }
+    
+    .flower-message {
+        padding: 12px !important;
+        margin-top: 15px !important;
+        max-width: 250px !important;
+    }
+}
 
         @media (max-width: 768px) {
             /* Show notice banner on mobile */
@@ -2312,5 +2476,35 @@
     .magic-wrapper.with-letter #original-letter {
         width: 100%;
         max-width: 100%;
+    }
+}
+
+/* QUICK MOBILE FIX - ADD THIS */
+@media (max-width: 768px) {
+    /* Force visibility of critical elements */
+    .elegant-envelope-container,
+    .features-grid,
+    .control-deck,
+    .notice-banner.mobile-visible {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    /* Fix positioning */
+    body {
+        overflow-x: hidden;
+        position: relative;
+    }
+    
+    /* Ensure sections don't hide content */
+    section {
+        overflow: visible !important;
+    }
+    
+    /* Make envelope touch-friendly */
+    .elegant-envelope-container {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
     }
 }

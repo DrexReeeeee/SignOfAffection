@@ -222,6 +222,7 @@ const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/
             welcomeScreen.style.opacity = '0';
             welcomeScreen.style.transform = 'translateY(-100%)';
             setTimeout(() => {
+                
                 welcomeScreen.style.display = 'none';
                 document.getElementById('navbar').classList.add('visible');
                 document.getElementById('planetLeft').style.opacity = '1';
@@ -235,6 +236,7 @@ const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/
                 document.querySelector('.top-tagline').classList.add('visible');
                 createShootingStars();
                 initThreeJS(); // Initialize 3D scenes after entry
+                 checkMobileVisibility();
                 
                 // Initialize interactions based on device
                 if (isMobile) {
@@ -1109,6 +1111,47 @@ function openGalaxyAuth() {
 }
 
 // Initialize envelope interactions on page load
+
+// Add this function to check mobile visibility
+function checkMobileVisibility() {
+    if (isMobile) {
+        console.log("Mobile detected, checking visibility:");
+        
+        // Check if elements exist
+        const envelope = document.getElementById('envelope-stage');
+        const features = document.getElementById('featuresGrid');
+        const setup = document.getElementById('controlDeck');
+        const banner = document.getElementById('noticeBanner');
+        
+        console.log("Envelope exists:", !!envelope);
+        console.log("Features exists:", !!features);
+        console.log("Setup exists:", !!setup);
+        console.log("Banner exists:", !!banner);
+        
+        if (envelope) {
+            console.log("Envelope display:", envelope.style.display);
+            console.log("Envelope computed display:", window.getComputedStyle(envelope).display);
+            console.log("Envelope opacity:", window.getComputedStyle(envelope).opacity);
+        }
+        
+        // Force show banner on mobile
+        if (banner) {
+            banner.style.display = 'block';
+            banner.classList.add('mobile-visible');
+        }
+    }
+}
+
+// Call this after DOM loads
+document.addEventListener('DOMContentLoaded', () => {
+    // ... existing code ...
+    
+    // Add mobile visibility check
+    setTimeout(() => {
+        checkMobileVisibility();
+    }, 1000);
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     // Add hover effect for envelope
     const envelope = document.getElementById('envelope-stage');
