@@ -201,9 +201,12 @@ function downloadMedia() {
 }
 
 async function saveToGalleryMobile(blob) {
-    const file = new File([blob], `galaxy_${Date.now()}.webm`, {
+    const ext = blob.type.includes('mp4') ? 'mp4' : 'webm';
+
+    const file = new File([blob], `galaxy_${Date.now()}.${ext}`, {
         type: blob.type
     });
+
 
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({
@@ -284,10 +287,15 @@ async function toggleVideoRecording() {
         // Start recording
         try {
             const stream = recordingCanvas.captureStream(30);
+            const mimeType = MediaRecorder.isTypeSupported('video/mp4')
+                ? 'video/mp4'
+                : 'video/webm';
+
             mediaRecorder = new MediaRecorder(stream, {
-                mimeType: 'video/webm;codecs=vp9',
-                videoBitsPerSecond: 5000000 
+                mimeType,
+                videoBitsPerSecond: 5_000_000
             });
+
             
             recordedChunks = [];
             
