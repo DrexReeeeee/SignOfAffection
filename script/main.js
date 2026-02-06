@@ -200,6 +200,27 @@ function downloadMedia() {
     document.body.removeChild(link);
 }
 
+async function saveToGalleryMobile(blob) {
+    const file = new File([blob], `galaxy_${Date.now()}.webm`, {
+        type: blob.type
+    });
+
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+            files: [file],
+            title: 'Galaxy Photobooth',
+            text: 'Saved from Galaxy Photobooth'
+        });
+    } else {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = file.name;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+}
+
 // --- FIXED PHOTO CAPTURE FUNCTION ---
 function takePhoto() {
     const tempCanvas = document.createElement('canvas');
@@ -276,21 +297,31 @@ async function toggleVideoRecording() {
                 }
             };
             
-            mediaRecorder.onstop = () => {
-                const blob = new Blob(recordedChunks, { type: 'video/webm' });
-                const videoUrl = URL.createObjectURL(blob);
-                
-                // Add to gallery
-                const galleryItem = {
-                    url: videoUrl,
-                    type: 'video',
-                    timestamp: Date.now()
-                };
-                
-                galleryItems.push(galleryItem);
-                localStorage.setItem('photoboothGallery', JSON.stringify(galleryItems));
-                addGalleryItem(videoUrl, 'video', galleryItems.length - 1);
+            mediaRecorder.onstop = async () => {
+                const webmBlob = new Blob(recordedChunks, { type: 'video/webm' });
+
+                // Detect Android
+                const isAndroid = /Android/i.test(navigator.userAgent);
+
+                if (isAndroid) {
+                    // ✅ Saves into Gallery via MediaStore
+                    await saveToGalleryMobile(webmBlob);
+                } else {
+                    // Desktop / iOS fallback (normal gallery flow)
+                    const videoUrl = URL.createObjectURL(webmBlob);
+
+                    const galleryItem = {
+                        url: videoUrl,
+                        type: 'video',
+                        timestamp: Date.now()
+                    };
+
+                    galleryItems.push(galleryItem);
+                    localStorage.setItem('photoboothGallery', JSON.stringify(galleryItems));
+                    addGalleryItem(videoUrl, 'video', galleryItems.length - 1);
+                }
             };
+
             
             mediaRecorder.start();
             isRecording = true;
